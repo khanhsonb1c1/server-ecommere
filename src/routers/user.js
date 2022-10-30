@@ -3,7 +3,7 @@ const middlewareAuth = require("../middlewares/middlewareAuth");
 
 const router = require("express").Router();
 
-router.get("/", middlewareAuth.verifyToken, userController.getAllUser);
+router.get("/", middlewareAuth.verifyAdmin, userController.getAllUser);
 router.get(
   "/:id",
   middlewareAuth.verifyOwnerAndAdmin,
