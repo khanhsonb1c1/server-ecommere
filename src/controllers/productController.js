@@ -2,11 +2,19 @@ const { Product } = require("../models/product");
 const { Category } = require("../models/category");
 
 const productController = {
-  // ! Add category
-
   addProduct: async (req, res) => {
     try {
-      const newProduct = new Product(req.body);
+      const newProduct = new Product({
+        product_id: req.body.product_id,
+        name: req.body.name,
+        category: req.body.category,
+        price: req.body.price,
+        quantity: req.body.quantity,
+        image: {
+          data: req.file.filename,
+          contentType: "image/jpg",
+        },
+      });
       const saveProduct = await newProduct.save();
       if (req.body.category) {
         const category = Category.findById(req.body.category);

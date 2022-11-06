@@ -5,7 +5,7 @@ const router = require("express").Router();
 
 router.post("/", productController.addProduct);
 
-router.get("/", middlewareAuth.verifyToken, productController.getAllProduct);
+router.get("/", productController.getAllProduct);
 router.put("/:id", productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);
 router.get("/:id", productController.getDetailProduct);

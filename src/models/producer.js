@@ -1,18 +1,13 @@
 const mongoose = require("mongoose");
 
-const CategorySchema = new mongoose.Schema({
-  category_id: {
+const ProducerSchema = new mongoose.Schema({
+  producer_id: {
     require: false,
     type: String,
   },
   name: {
     require: false,
     type: String,
-  },
-  image: {
-    data: Buffer,
-    contentType: String,
-    require: false,
   },
 
   product: [
@@ -23,6 +18,6 @@ const CategorySchema = new mongoose.Schema({
   ],
 });
 
-let Category = mongoose.model("Category", CategorySchema);
+let Producer = mongoose.model("Producer", ProducerSchema);
 
-module.exports = { Category };
+module.exports = { Producer };

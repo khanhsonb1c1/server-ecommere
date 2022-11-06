@@ -1,12 +1,13 @@
 const { Category } = require("../models/category");
 const { Product } = require("../models/product");
+const multer = require("multer");
 
 const categoryController = {
   addCategory: async (req, res) => {
     try {
       const newCategory = new Category(req.body);
-      const saveCategory = await newCategory.save();
-      res.status(200).json(saveCategory);
+      // const saveCategory = await newCategory.save();
+      res.status(200).json(newCategory);
     } catch (error) {
       res.status(500).json(error);
     }
