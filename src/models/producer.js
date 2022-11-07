@@ -4,6 +4,7 @@ const ProducerSchema = new mongoose.Schema({
   producer_id: {
     require: false,
     type: String,
+    unique: true,
   },
   name: {
     require: false,

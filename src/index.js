@@ -7,15 +7,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
-const multer = require("multer");
-// const upload = multer({ dest: "uploads/" });
 const categoryRoute = require("./routers/category");
 const productRoute = require("./routers/product");
 const authRoute = require("./routers/auth");
 const userRoute = require("./routers/user");
-
-const ImageModel = require("./image.model");
-const { application } = require("express");
 
 dotenv.config();
 
@@ -26,7 +21,7 @@ app.use(morgan("common"));
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-
+app.use(express.static("public/images"));
 mongoose
   .connect(process.env.MONGOOSE_URL, {
     useNewUrlParser: true,
@@ -39,37 +34,6 @@ app.get("/", (req, res) => {
   res.send("upload file");
 });
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    if (
-      file.mimetype === "image/jpg" ||
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/png"
-    ) {
-      cb(null, "public/images");
-    } else {
-      cb(new Error("not image"), false);
-    }
-  },
-  filename: function (req, file, cb) {
-    image = file.originalname;
-    cb(null, image);
-  },
-});
-let image;
-var upload = multer({ storage: storage });
-
-app.post("/img", upload.single("image"), (req, res) => {
-  const newImage = new ImageModel({
-    name: req.body.name,
-    image: {
-      data: image,
-    },
-  });
-  newImage.save().then(() => {
-    res.send("sedajjkfkbsdk");
-  });
-});
 // ! ROUTE
 
 app.use("/api/category", categoryRoute);

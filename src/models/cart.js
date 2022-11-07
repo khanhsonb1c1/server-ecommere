@@ -5,19 +5,20 @@ const CartSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  product: {
-    type: [],
-    require: false,
-  },
-  quantity: {
-    type: String,
-    require: false,
-  },
 
-  updated: {
-    type: String,
-    require: false,
-  },
+  cart_id: {},
+
+  list_product: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      quantity: {
+        type: Number,
+      },
+    },
+  ],
 });
 
 let Cart = mongoose.model("Cart", CartSchema);

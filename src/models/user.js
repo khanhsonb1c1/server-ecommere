@@ -49,7 +49,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
-  cart: {},
+  cart: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cart",
+    },
+  ],
 
   created: {
     require: false,

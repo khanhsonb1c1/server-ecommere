@@ -4,15 +4,15 @@ const CategorySchema = new mongoose.Schema({
   category_id: {
     require: false,
     type: String,
+    unique: true,
   },
   name: {
     require: false,
     type: String,
   },
-  image: {
-    data: Buffer,
-    contentType: String,
+  imageUrl: {
     require: false,
+    type: String,
   },
 
   product: [

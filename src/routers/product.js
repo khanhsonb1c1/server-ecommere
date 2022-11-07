@@ -1,9 +1,12 @@
-const productController = require("../controllers/productController");
+const {
+  productController,
+  upload,
+} = require("../controllers/productController");
 const middlewareAuth = require("../middlewares/middlewareAuth");
 
 const router = require("express").Router();
 
-router.post("/", productController.addProduct);
+router.post("/", upload.single("imageUrl"), productController.addProduct);
 
 router.get("/", productController.getAllProduct);
 router.put("/:id", productController.updateProduct);

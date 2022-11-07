@@ -1,30 +1,12 @@
-const { Category } = require("../models/category");
-const { Product } = require("../models/product");
-// const express = require("express");
-// const moogoose = require("mongoose");
-const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/images/category");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
-
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1024 * 1024 * 5 },
-});
+const { Cart } = require("../models/cart");
+const { User } = require("../models/user");
 
 const categoryController = {
-  addCategory: async (req, res) => {
+  addCartItem: async (req, res) => {
     try {
       const newCategory = new Category({
         name: req.body.name,
         category_id: req.body.category_id,
-        imageUrl: req.file.path,
       });
       const saveCategory = await newCategory.save();
       res.status(200).json({

@@ -4,6 +4,7 @@ const ProductSchema = new mongoose.Schema({
   product_id: {
     type: String,
     require: true,
+    unique: true,
   },
   name: {
     type: String,
@@ -17,9 +18,8 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
-  image: {
-    data: Buffer,
-    contentType: String,
+  imageUrl: {
+    type: String,
     require: false,
   },
 

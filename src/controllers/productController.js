@@ -1,5 +1,20 @@
 const { Product } = require("../models/product");
 const { Category } = require("../models/category");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/images/product");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 },
+});
 
 const productController = {
   addProduct: async (req, res) => {
@@ -10,10 +25,7 @@ const productController = {
         category: req.body.category,
         price: req.body.price,
         quantity: req.body.quantity,
-        image: {
-          data: req.file.filename,
-          contentType: "image/jpg",
-        },
+        imageUrl: req.file.path,
       });
       const saveProduct = await newProduct.save();
       if (req.body.category) {
@@ -24,7 +36,10 @@ const productController = {
         });
       }
 
-      res.status(200).json(saveProduct);
+      res.status(200).json({
+        message: "successfully.",
+        create_product: saveProduct,
+      });
     } catch (error) {
       res.status(500).json(error);
     }
@@ -76,4 +91,4 @@ const productController = {
   },
 };
 
-module.exports = productController;
+module.exports = { productController, upload };

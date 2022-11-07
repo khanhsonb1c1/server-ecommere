@@ -1,9 +1,12 @@
-const categoryController = require("../controllers/categoryController");
+const {
+  categoryController,
+  upload,
+} = require("../controllers/categoryController");
 const express = require("express");
-// const router = require("express").Router();
+
 const router = express.Router();
 
-router.post("/", categoryController.addCategory);
+router.post("/", upload.single("imageUrl"), categoryController.addCategory);
 
 router.get("/", categoryController.getAllCategory);
 
