@@ -26,6 +26,7 @@ const productController = {
         price: req.body.price,
         quantity: req.body.quantity,
         imageUrl: req.file.path,
+        description: req.body.description,
       });
       const saveProduct = await newProduct.save();
       if (req.body.category) {

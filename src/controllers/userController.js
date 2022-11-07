@@ -18,8 +18,20 @@ const userController = {
       //   const user = await User.find({
       //     user_name: req.params.id,
       //   });
-      const user = await User.findById(req.params.id);
+      const user = await User.find({
+        user_name: req.params.id,
+      });
       res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+
+  updateUser: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      await user.updateOne({ $set: req.body });
+      res.status(200).json("Updated successfully !");
     } catch (error) {
       res.status(500).json(error);
     }

@@ -31,9 +31,9 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     require: false,
   },
-  desciption: {
+  description: {
     type: String,
-    require: false,
+    require: true,
   },
   blog: {},
   rate: {
