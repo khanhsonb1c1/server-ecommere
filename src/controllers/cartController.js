@@ -1,56 +1,62 @@
 const { Cart } = require("../models/cart");
 const { User } = require("../models/user");
 
-const categoryController = {
-  addCartItem: async (req, res) => {
+const cartController = {
+  addCart: async (req, res) => {
     try {
-      const newCategory = new Category({
-        name: req.body.name,
-        category_id: req.body.category_id,
-      });
-      const saveCategory = await newCategory.save();
+      const newCart = new Cart(req.body);
+      const saveCart = await newCart.save();
+      if (req.body.user) {
+        const user = User.findById(req.body.user);
+        // ! add to user
+        await user.updateOne({
+          $push: { cart: saveCart._id },
+        });
+      }
+
       res.status(200).json({
-        message: "successfully.",
-        create_category: saveCategory,
-        // file: req.file,
+        message: "add new cart successfully.",
+        savecart: saveCart,
+        
       });
     } catch (error) {
       res.send(error);
     }
   },
 
-  getAllCategory: async (req, res) => {
+  getAllCart: async (req, res) => {
     try {
-      const categories = await Category.find();
-
-      res.status(200).json(categories);
+      const cart = await Cart.find();
+      res.status(200).json(cart);
     } catch (error) {
       res.status(500).json(error);
     }
   },
 
-  getDetailcategory: async (req, res) => {
+  getCartDetail: async (req, res) => {
     try {
-      const category = await Category.find({
-        category_id: req.params.id,
-      }).populate("product");
-      res.status(200).json(category);
+      const cart = await Cart.find({
+        cart_id: req.params.id,
+      }).populate("user");
+      res.status(200).json(cart);
     } catch (error) {
       res.status(500).json(error);
     }
   },
 
-  updateCategory: async (req, res) => {
+  updateCart: async (req, res) => {
     try {
-      const category = await Category.findById(req.params.id);
-      await category.updateOne({ $set: req.body });
+      const cart = await Cart.find({
+        cart_id: req.params.id,
+      });
+      await cart.updateOne({ $set: req.body });
       res.status(200).json("Updated successfully !");
     } catch (error) {
       res.status(500).json(error);
     }
   },
 
-  deleteCategory: async (req, res) => {
+  deleteCart: async (req, res) => {
     try {
       await Product.updateMany({ category: req.params.id }, { category: null });
       await Category.findByIdAndDelete(req.params.id);
@@ -61,5 +67,5 @@ const categoryController = {
   },
 };
 
-module.exports = { categoryController, upload };
+module.exports = cartController ;
 // module.exports = upload;

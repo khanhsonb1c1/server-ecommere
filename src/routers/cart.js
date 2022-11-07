@@ -1,13 +1,13 @@
-const authController = require("../controllers/authController");
+const cartController = require("../controllers/cartController");
 
 const router = require("express").Router();
 
-router.post("/register", authController.registerUser);
+router.post("/", cartController.addCart);
 
-router.post("/login", authController.loginUser);
+router.get("/:id", cartController.getCartDetail);
 
-router.post("/refresh", authController.refreshToken);
+router.put("/", cartController.updateCart);
 
-router.post("/logout", authController.logoutUser);
+router.delete("/", cartController.deleteCart);
 
 module.exports = router;
