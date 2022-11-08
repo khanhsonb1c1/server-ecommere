@@ -12,6 +12,7 @@ const productRoute = require("./routers/product");
 const authRoute = require("./routers/auth");
 const userRoute = require("./routers/user");
 const cartRoute = require("./routers/cart");
+const productInCartRoute = require("./routers/productInCart")
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use("/api/product", productRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
+app.use("/api/productInCart", productInCartRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen

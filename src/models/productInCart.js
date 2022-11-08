@@ -12,6 +12,11 @@ const ProductInCartSchema = new mongoose.Schema({
         default: 0,
     },
 
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+    }
+
     
 });
 
