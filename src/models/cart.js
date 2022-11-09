@@ -12,18 +12,22 @@ const CartSchema = new mongoose.Schema({
     unique: true,
   },
 
-  status:{
+  status: {
     type: String,
     require: true,
-
   },
 
-  productInCart: [
+  created_at: {
+    type: Number,
+    default: Date.now(),
+  },
+
+  product: [
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "ProductInCart",
-      }
+      },
     },
   ],
 });
