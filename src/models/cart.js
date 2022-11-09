@@ -18,7 +18,7 @@ const CartSchema = new mongoose.Schema({
 
   },
 
-  list_product: [
+  productInCart: [
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,

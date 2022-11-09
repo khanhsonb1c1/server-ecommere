@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const ProductInCartSchema = new mongoose.Schema({
-    cart_id: {
+    cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Cart",
     },
