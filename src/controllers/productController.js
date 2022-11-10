@@ -47,12 +47,20 @@ const productController = {
   },
 
   getAllProduct: async (req, res) => {
-    try {
-      const products = await Product.find();
-      res.status(200).json(products);
-    } catch (error) {
-      res.status(500).json(error);
-    }
+    const PAGE_SIZE = 5;
+    const page = req.query.page;
+    if(page){
+     page = parseInt(page);
+     var skip = (page -1) * PAGE_SIZE;
+    } else{
+      try {
+        const products = await Product.find({});
+        res.status(200).json(products);
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    };
+   
   },
 
   getDetailProduct: async (req, res) => {
