@@ -47,11 +47,35 @@ const productController = {
   },
 
   getAllProduct: async (req, res) => {
-    try {
-      const products = await Product.find();
-      res.status(200).json(products);
-    } catch (error) {
-      res.status(500).json(error);
+    const PAGE_SIZE = 4;
+    const page = req.query.page;
+    if (page) {
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find().skip(skip).limit(PAGE_SIZE);
+
+        const products = await Product.find();
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    } else {
+      try {
+        const products = await Product.find().skip(0).limit(PAGE_SIZE);
+
+        const productss = await Product.find();
+        const total = Math.ceil(productss.length / PAGE_SIZE);
+        res
+          .status(200)
+          .json({ last_page: total, current_page: 1, data: products });
+      } catch (error) {
+        res.status(500).json(error);
+      }
     }
   },
 
