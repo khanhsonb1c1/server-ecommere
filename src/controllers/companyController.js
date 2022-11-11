@@ -1,19 +1,17 @@
 const { Company } = require("../models/company");
 const { Product } = require("../models/product");
 
-
 const companyController = {
   addCompany: async (req, res) => {
     try {
       const newCompany = new Company({
         name: req.body.name,
-
+        company_id: req.body.company_id,
       });
       const saveCompany = await newCompany.save();
       res.status(200).json({
         message: "successfully.",
         create_company: saveCompany,
-
       });
     } catch (error) {
       res.send(error);
@@ -22,9 +20,8 @@ const companyController = {
 
   getAllCompany: async (req, res) => {
     try {
-      const company = await Company.find();
-
-      res.status(200).json(company);
+      const company = await Company.find().populate("product");
+      res.status(200).json({ data: company });
     } catch (error) {
       res.status(500).json(error);
     }
@@ -33,7 +30,7 @@ const companyController = {
   getDetailCompany: async (req, res) => {
     try {
       const company = await Company.find({
-       company_id : req.params.id,
+        company_id: req.params.id,
       }).populate("product");
 
       res.status(200).json(company);
@@ -63,5 +60,5 @@ const companyController = {
   },
 };
 
-module.exports =  companyController ;
+module.exports = companyController;
 // module.exports = upload;

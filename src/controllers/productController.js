@@ -49,11 +49,14 @@ const productController = {
   getAllProduct: async (req, res) => {
     const PAGE_SIZE = 4;
     const page = req.query.page;
+    const search = req.query.search || "";
+    const sort_by_category = req.query.sort_by_category;
+    const sort_by_company = req.query.sort_by_company;
+
     if (page) {
       try {
         const skip = (page - 1) * PAGE_SIZE;
-        
-        const product_page = await Product.find().skip(skip).limit(PAGE_SIZE);
+        const product_page = await Product.find().populate("category");
 
         const products = await Product.find();
 
@@ -67,7 +70,11 @@ const productController = {
       }
     } else {
       try {
-        const products = await Product.find().skip(0).limit(PAGE_SIZE);
+        const products = await Product.find({
+          category: req.query.filter,
+        }).populate("category");
+        // .skip(0)
+        // .limit(PAGE_SIZE);
 
         const productss = await Product.find();
         const total = Math.ceil(productss.length / PAGE_SIZE);
@@ -86,7 +93,7 @@ const productController = {
       const product = await Product.find({
         product_id: req.params.id,
       }).populate("category");
-      res.status(200).json(product);
+      res.status(200).json({ data: product });
     } catch (error) {
       res.status(500).json(error);
     }
@@ -104,6 +111,7 @@ const productController = {
 
   deleteProduct: async (req, res) => {
     try {
+      // ! Tìm và lấy ra product trong category
       await Category.updateMany(
         { product: req.params.id },
         { $pull: { product: req.params.id } }

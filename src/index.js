@@ -12,7 +12,8 @@ const productRoute = require("./routers/product");
 const authRoute = require("./routers/auth");
 const userRoute = require("./routers/user");
 const cartRoute = require("./routers/cart");
-const productInCartRoute = require("./routers/productInCart")
+const productInCartRoute = require("./routers/productInCart");
+const companyRoute = require("./routers/company");
 
 dotenv.config();
 
@@ -25,15 +26,15 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("public/images"));
 mongoose
-    .connect(process.env.MONGOOSE_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log("db connected."))
-    .catch((err) => console.log(err, "connect fail."));
+  .connect(process.env.MONGOOSE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("db connected."))
+  .catch((err) => console.log(err, "connect fail."));
 
 app.get("/", (req, res) => {
-    res.send("upload file");
+  res.send("upload file");
 });
 
 // ! ROUTE
@@ -44,9 +45,10 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/productInCart", productInCartRoute);
+app.use("/api/company", companyRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+  console.log(`Example app listening on port ${port}`);
 });

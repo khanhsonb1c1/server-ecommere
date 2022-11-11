@@ -52,7 +52,7 @@ const categoryController = {
       const category = await Category.find({
         category_id: req.params.id,
       }).populate("product");
-      res.status(200).json(category);
+      res.status(200).json({ data: category });
     } catch (error) {
       res.status(500).json(error);
     }
