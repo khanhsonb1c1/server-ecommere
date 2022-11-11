@@ -23,6 +23,11 @@ const ProductSchema = new mongoose.Schema({
     require: false,
   },
 
+  company:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
+  },
+
   quantity: {
     type: String,
     require: true,
@@ -35,13 +40,20 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  blog: {},
+  created_at: {
+    type: String,
+    default: Date.now(),
+  },
+  blog: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Blog",
+  }],
   rate: {
     type: Number,
     require: false,
   },
 });
 
-let Product = mongoose.model("Product", ProductSchema);
+const Product = mongoose.model("Product", ProductSchema);
 
 module.exports = { Product };

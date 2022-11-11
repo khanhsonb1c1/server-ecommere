@@ -4,7 +4,11 @@ const { User } = require("../models/user");
 const cartController = {
   addCart: async (req, res) => {
     try {
-      const newCart = new Cart(req.body);
+      const newCart = new Cart({
+        cart_id: req.body.cart_id,
+        user: req.body.user,
+        status: req.body.status,
+      });
       const saveCart = await newCart.save();
       if (req.body.user) {
         const user = User.findById(req.body.user);
@@ -17,7 +21,6 @@ const cartController = {
       res.status(200).json({
         message: "add new cart successfully.",
         savecart: saveCart,
-        
       });
     } catch (error) {
       res.send(error);
@@ -26,7 +29,7 @@ const cartController = {
 
   getAllCart: async (req, res) => {
     try {
-      const cart = await Cart.find();
+      const cart = await Cart.find().populate("user");
       res.status(200).json(cart);
     } catch (error) {
       res.status(500).json(error);
@@ -67,5 +70,5 @@ const cartController = {
   },
 };
 
-module.exports = cartController ;
+module.exports = cartController;
 // module.exports = upload;
