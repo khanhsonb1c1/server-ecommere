@@ -8,6 +8,7 @@ const cartController = {
         cart_id: req.body.cart_id,
         user: req.body.user,
         status: req.body.status,
+        created_at: Date.now(),
       });
       const saveCart = await newCart.save();
       if (req.body.user) {

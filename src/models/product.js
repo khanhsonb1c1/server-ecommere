@@ -23,13 +23,13 @@ const ProductSchema = new mongoose.Schema({
     require: false,
   },
 
-  company:{
+  company: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
   },
 
   quantity: {
-    type: String,
+    type: Number,
     require: true,
   },
   discount: {
@@ -41,13 +41,14 @@ const ProductSchema = new mongoose.Schema({
     require: true,
   },
   created_at: {
-    type: String,
-    default: Date.now(),
+    type: Number,
   },
-  blog: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Blog",
-  }],
+  blog: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+    },
+  ],
   rate: {
     type: Number,
     require: false,

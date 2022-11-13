@@ -14,6 +14,10 @@ const CategorySchema = new mongoose.Schema({
     require: false,
     type: String,
   },
+  created_at: {
+    require: false,
+    type: Number,
+  },
 
   product: [
     {

@@ -27,6 +27,7 @@ const productController = {
         quantity: req.body.quantity,
         imageUrl: req.file.path,
         description: req.body.description,
+        created_at: Date.now(),
       });
       const saveProduct = await newProduct.save();
       if (req.body.category) {
@@ -49,14 +50,14 @@ const productController = {
   getAllProduct: async (req, res) => {
     const PAGE_SIZE = 4;
     const page = req.query.page;
-    const search = req.query.search || "";
-    const sort_by_category = req.query.sort_by_category;
-    const sort_by_company = req.query.sort_by_company;
 
     if (page) {
       try {
         const skip = (page - 1) * PAGE_SIZE;
-        const product_page = await Product.find().populate("category");
+        const product_page = await Product.find()
+          .populate("category")
+          .skip(skip)
+          .limit(PAGE_SIZE);
 
         const products = await Product.find();
 
@@ -70,11 +71,9 @@ const productController = {
       }
     } else {
       try {
-        const products = await Product.find({
-          category: req.query.filter,
-        }).populate("category");
-        // .skip(0)
-        // .limit(PAGE_SIZE);
+        const products = await Product.find({})
+          .sort({ price: 1 })
+          .populate("category");
 
         const productss = await Product.find();
         const total = Math.ceil(productss.length / PAGE_SIZE);
