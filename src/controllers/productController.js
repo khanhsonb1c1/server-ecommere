@@ -24,6 +24,7 @@ const productController = {
         name: req.body.name,
         category: req.body.category,
         price: req.body.price,
+        sale: req.body.sale,
         quantity: req.body.quantity,
         imageUrl: req.file.path,
         description: req.body.description,
@@ -48,50 +49,50 @@ const productController = {
   },
 
   getAllProduct: async (req, res) => {
-    const PAGE_SIZE = 4;
+    const PAGE_SIZE = 12;
     const page = req.query.page;
 
-    if (page) {
-      try {
-        const skip = (page - 1) * PAGE_SIZE;
-        const product_page = await Product.find()
-          .populate("category")
-          .skip(skip)
-          .limit(PAGE_SIZE);
+    try {
+      const skip = (page - 1) * PAGE_SIZE;
+      const product_page = await Product.find()
+        .populate("category")
+        .sort("created_at")
+        .skip(skip)
+        .limit(PAGE_SIZE);
 
-        const products = await Product.find();
+      const products = await Product.find();
 
-        const total = Math.ceil(products.length / PAGE_SIZE);
+      const total = Math.ceil(products.length / PAGE_SIZE);
 
-        res
-          .status(200)
-          .json({ last_page: total, current_page: page, data: product_page });
-      } catch (error) {
-        res.status(500).json(error);
-      }
-    } else {
-      try {
-        const products = await Product.find({})
-          .sort({ price: 1 })
-          .populate("category");
-
-        const productss = await Product.find();
-        const total = Math.ceil(productss.length / PAGE_SIZE);
-        res
-          .status(200)
-          .json({ last_page: total, current_page: 1, data: products });
-      } catch (error) {
-        res.status(500).json(error);
-      }
+      res
+        .status(200)
+        .json({ last_page: total, current_page: page, data: product_page });
+    } catch (error) {
+      res.status(500).json(error);
     }
+
+    //   try {
+    //     const products = await Product.find({})
+    //       .sort({ price: 1 })
+    //       .populate("category");
+
+    //     const productss = await Product.find();
+    //     const total = Math.ceil(productss.length / PAGE_SIZE);
+    //     res
+    //       .status(200)
+    //       .json({ last_page: total, current_page: 1, data: products });
+    //   } catch (error) {
+    //     res.status(500).json(error);
+    //   }
+    // }
   },
 
   getDetailProduct: async (req, res) => {
     try {
       // req.params.id
-      const product = await Product.find({
-        product_id: req.params.id,
-      }).populate("category");
+      const product = await Product.findById(req.params.id).populate(
+        "category"
+      );
       res.status(200).json({ data: product });
     } catch (error) {
       res.status(500).json(error);

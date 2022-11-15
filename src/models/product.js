@@ -18,6 +18,11 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
+  sale: {
+    type: Number,
+    require: true,
+    default: 0,
+  },
   imageUrl: {
     type: String,
     require: false,

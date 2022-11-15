@@ -24,7 +24,7 @@ app.use(morgan("common"));
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static("public/images"));
+app.use(express.static("public"));
 mongoose
   .connect(process.env.MONGOOSE_URL, {
     useNewUrlParser: true,
