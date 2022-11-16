@@ -26,10 +26,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("public"));
 mongoose
-  .connect(process.env.MONGOOSE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGOOSE_URL, {})
   .then(() => console.log("db connected."))
   .catch((err) => console.log(err, "connect fail."));
 
