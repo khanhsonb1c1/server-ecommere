@@ -56,9 +56,10 @@ const UserSchema = new mongoose.Schema({
     },
   ],
 
-  created: {
-    require: false,
-    type: String,
+  created_at: {
+    require: true,
+    type: Number,
+    default: Math.round(+new Date() / 1000),
   },
 
   updated: {

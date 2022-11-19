@@ -25,7 +25,6 @@ const categoryController = {
         name: req.body.name,
         category_id: req.body.category_id,
         imageUrl: req.file.path,
-        created_at: Date.now(),
       });
       const saveCategory = await newCategory.save();
       res.status(200).json({

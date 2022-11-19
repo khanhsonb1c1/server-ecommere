@@ -1,27 +1,25 @@
 const mongoose = require("mongoose");
 
 const RepCommentSchema = new mongoose.Schema({
-   comment: {
+  comment: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Comment',
-   },
+    ref: "Comment",
+  },
 
-   user: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-   },
+    ref: "User",
+  },
 
-   content: {
+  content: {
     type: String,
     require: true,
-   },
+  },
 
-   created_at: {
+  created_at: {
     type: Number,
-    default: Date.now(),
-   },
-
-   
+    default: Math.round(+new Date() / 1000),
+  },
 });
 
 let RepComment = mongoose.model("RepComment", RepCommentSchema);

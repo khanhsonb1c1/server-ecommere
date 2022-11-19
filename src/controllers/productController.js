@@ -28,7 +28,7 @@ const productController = {
         quantity: req.body.quantity,
         imageUrl: req.file.path,
         description: req.body.description,
-        created_at: Date.now(),
+        company: req.body.company,
       });
       const saveProduct = await newProduct.save();
       if (req.body.category) {
@@ -55,7 +55,8 @@ const productController = {
     try {
       const skip = (page - 1) * PAGE_SIZE;
       const product_page = await Product.find()
-        .populate("category")
+        .populate("category", "name")
+        .populate("company", "name")
         .sort("created_at")
         .skip(skip)
         .limit(PAGE_SIZE);

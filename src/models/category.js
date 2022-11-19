@@ -17,6 +17,7 @@ const CategorySchema = new mongoose.Schema({
   created_at: {
     require: false,
     type: Number,
+    default: Math.round(+new Date() / 1000),
   },
 
   product: [

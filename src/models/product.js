@@ -27,7 +27,6 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
-
   company: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
@@ -47,6 +46,7 @@ const ProductSchema = new mongoose.Schema({
   },
   created_at: {
     type: Number,
+    default: Math.round(+new Date() / 1000),
   },
   blog: [
     {
