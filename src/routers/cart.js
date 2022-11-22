@@ -8,8 +8,8 @@ router.get("/", cartController.getAllCart);
 
 router.get("/:id", cartController.getCartDetail);
 
-router.put("/", cartController.updateCart);
+router.put("/:id", cartController.updateCart);
 
-router.delete("/", cartController.deleteCart);
+router.delete("/:id", cartController.deleteCart);
 
 module.exports = router;

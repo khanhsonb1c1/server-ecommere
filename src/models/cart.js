@@ -15,6 +15,12 @@ const CartSchema = new mongoose.Schema({
   status: {
     type: String,
     require: true,
+    default: "open",
+  },
+  note: {
+    type: String,
+    require: true,
+    default: "",
   },
 
   created_at: {
@@ -22,7 +28,7 @@ const CartSchema = new mongoose.Schema({
     default: Math.round(+new Date() / 1000),
   },
 
-  product: [
+  product_list: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ProductInCart",

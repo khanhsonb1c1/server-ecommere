@@ -1,5 +1,6 @@
 const { Product } = require("../models/product");
 const { Category } = require("../models/category");
+const { Company } = require("../models/company");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -35,6 +36,14 @@ const productController = {
         const category = Category.findById(req.body.category);
         // ? add to category
         await category.updateOne({
+          $push: { product: saveProduct._id },
+        });
+      }
+
+      if (req.body.company) {
+        const company = Company.findById(req.body.company);
+
+        await company.updateOne({
           $push: { product: saveProduct._id },
         });
       }

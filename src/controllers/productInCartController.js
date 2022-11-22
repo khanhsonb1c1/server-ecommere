@@ -5,16 +5,16 @@ const productInCartController = {
   addToCart: async (req, res) => {
     try {
       const newProductInCart = new ProductInCart({
-        product: req.params.id,
+        product: req.body.product,
         quantity: req.body.quantity,
         cart: req.body.cart,
       });
       const saveProductInCart = await newProductInCart.save();
       if (req.body.cart) {
         const cart = Cart.findById(req.body.cart);
-        // ? add to category
+
         await cart.updateOne({
-          $push: { product: saveProductInCart._id },
+          $push: { product_list: saveProductInCart._id },
         });
       }
 
@@ -22,6 +22,17 @@ const productInCartController = {
         message: "successfully.",
         add_product_to_cart: saveProductInCart,
       });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+
+  getProductInCart: async (req, res) => {
+    try {
+      const productInCart = await ProductInCart.findById(
+        req.params.id
+      ).populate("product");
+      res.status(200).json(productInCart);
     } catch (error) {
       res.status(500).json(error);
     }
