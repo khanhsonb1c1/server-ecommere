@@ -6,9 +6,19 @@ const BlogSchema = new mongoose.Schema({
     ref: "Product",
   },
 
-  title: {
+  title1: {
     type: String,
     require: true,
+  },
+  
+  title2: {
+    type: String,
+    require: false,
+  },
+  
+  title3: {
+    type: String,
+    require: false,
   },
 
   imageUrl: {
@@ -21,9 +31,19 @@ const BlogSchema = new mongoose.Schema({
     require: true,
   },
 
-  content: {
+  content1: {
     type: String,
     require: true,
+  },
+  
+  content2: {
+    type: String,
+    require: false,
+  },
+  
+  content3: {
+    type: String,
+    require: false,
   },
 
   comment: [
