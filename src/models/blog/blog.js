@@ -10,13 +10,13 @@ const BlogSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  
+
   title2: {
     type: String,
     require: false,
   },
-  
-  title3: {
+
+  title: {
     type: String,
     require: false,
   },
@@ -35,13 +35,8 @@ const BlogSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  
+
   content2: {
-    type: String,
-    require: false,
-  },
-  
-  content3: {
     type: String,
     require: false,
   },

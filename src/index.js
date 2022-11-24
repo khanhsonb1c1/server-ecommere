@@ -14,6 +14,8 @@ const userRoute = require("./routers/user");
 const cartRoute = require("./routers/cart");
 const productInCartRoute = require("./routers/productInCart");
 const companyRoute = require("./routers/company");
+const blogRoute = require("./routers/blog");
+const commentRoute = require("./routers/comment");
 
 dotenv.config();
 
@@ -46,6 +48,8 @@ app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/productInCart", productInCartRoute);
 app.use("/api/company", companyRoute);
+app.use("/api/blog", blogRoute);
+app.use("/api/comment", commentRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen

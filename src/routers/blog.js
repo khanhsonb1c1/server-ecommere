@@ -1,8 +1,11 @@
-const blogController = require("../controllers/blog/blogController");
+const {
+  blogController,
+  upload,
+} = require("../controllers/blog/blogController");
 
 const router = require("express").Router();
 
-router.post("/", blogController.addBlog);
+router.post("/", upload.single("imageUrl"), blogController.addBlog);
 
 router.get("/", blogController.getAllBlog);
 
