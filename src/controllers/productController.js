@@ -32,21 +32,18 @@ const productController = {
         company: req.body.company,
       });
       const saveProduct = await newProduct.save();
-      if (req.body.category) {
-        const category = Category.findById(req.body.category);
-        // ? add to category
-        await category.updateOne({
-          $push: { product: saveProduct._id },
-        });
-      }
 
-      if (req.body.company) {
-        const company = Company.findById(req.body.company);
+      const category = Category.findById(req.body.category);
+      // ? add to category
+      await category.updateOne({
+        $push: { product: saveProduct._id },
+      });
 
-        await company.updateOne({
-          $push: { product: saveProduct._id },
-        });
-      }
+      const company = Company.findById(req.body.company);
+
+      await company.updateOne({
+        $push: { product: saveProduct._id },
+      });
 
       res.status(200).json({
         message: "successfully.",
