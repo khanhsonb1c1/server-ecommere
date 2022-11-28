@@ -64,6 +64,7 @@ app.use("/api/comment", commentRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen
-app.listen(process.env.PORT || 8000), () => {
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
   console.log(`Example app listening on port`);
 });
