@@ -4,6 +4,8 @@ const router = require("express").Router();
 
 router.post("/", cartController.addCart);
 
+router.get("/default", cartController.getCartDefault);
+
 router.get("/", cartController.getAllCart);
 
 router.get("/:id", cartController.getCartDetail);

@@ -27,11 +27,22 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("public"));
+// mongoose
+//   .connect(process.env.MONGOOSE_URL, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => console.log("db connected."))
+//   .catch((err) => console.log(err, "connect fail."));
+
 mongoose
-  .connect(process.env.MONGOOSE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://admin:admin@gearshopfinal.isqkpz2.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("db connected."))
   .catch((err) => console.log(err, "connect fail."));
 

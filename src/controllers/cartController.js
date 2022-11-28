@@ -32,7 +32,7 @@ const cartController = {
 
     try {
       const skip = (page - 1) * PAGE_SIZE;
-      const cart = await Cart.find()
+      const cart = await Cart.find({})
         .populate({ path: "product_list", populate: { path: "product" } })
         .populate("user", "full_name")
         .skip(skip)
@@ -61,6 +61,39 @@ const cartController = {
       // .populate("product");
 
       res.status(200).json(cart);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+
+  getCartDefault: async (req, res) => {
+    try {
+      const user_id = req.query.id;
+      const status = req.query.status;
+      const cart = await Cart.find({
+        $and: [{ status: status }, { user: user_id }],
+      })
+        .populate({
+          path: "product_list",
+          populate: { path: "product" },
+        })
+        .populate("user");
+
+      if (cart.length == 0) {
+        const newCart = new Cart({
+          user: user_id,
+          status: "open",
+        });
+        const saveCart = await newCart.save();
+
+        const user = User.findById(user_id);
+        // ! add to user
+        await user.updateOne({
+          $push: { cart: saveCart._id },
+        });
+
+        res.status(200).json(saveCart);
+      } else res.status(200).json(cart);
     } catch (error) {
       res.status(500).json(error);
     }

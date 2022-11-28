@@ -57,26 +57,96 @@ const productController = {
   getAllProduct: async (req, res) => {
     const PAGE_SIZE = 12;
     const page = req.query.page;
+    const category = req.query.category;
+    const company = req.query.company;
+    const sort = req.query.sort;
 
-    try {
-      const skip = (page - 1) * PAGE_SIZE;
-      const product_page = await Product.find()
-        .populate("category", "name")
-        .populate("company", "name")
-        .sort("created_at")
-        .skip(skip)
-        .limit(PAGE_SIZE);
+    if (req.query.category && req.query.company) {
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find({
+          $and: [{ category: category }, { company: company }],
+        })
+          .populate("category", "name")
+          .populate("company", "name")
+          .sort(sort)
+          .skip(skip)
+          .limit(PAGE_SIZE);
 
-      const products = await Product.find();
+        const products = await Product.find();
 
-      const total = Math.ceil(products.length / PAGE_SIZE);
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
-      res
-        .status(200)
-        .json({ last_page: total, current_page: page, data: product_page });
-    } catch (error) {
-      res.status(500).json(error);
-    }
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    } else if (req.query.category) {
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find({
+          category: category,
+        })
+          .populate("category", "name")
+          .populate("company", "name")
+          .sort(sort)
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const products = await Product.find();
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    } else if (req.query.company) {
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find({
+          company: company,
+        })
+          .populate("category", "name")
+          .populate("company", "name")
+          .sort(sort)
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const products = await Product.find();
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    } else
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find()
+          .populate("category", "name")
+          .populate("company", "name")
+          .sort(sort)
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const products = await Product.find();
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
 
     //   try {
     //     const products = await Product.find({})
