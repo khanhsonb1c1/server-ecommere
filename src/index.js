@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = 8000;
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -27,24 +26,24 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("public"));
-// mongoose
-//   .connect(process.env.MONGOOSE_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => console.log("db connected."))
-//   .catch((err) => console.log(err, "connect fail."));
-
 mongoose
-  .connect(
-    "mongodb+srv://admin:admin@gearshopfinal.isqkpz2.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGOOSE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("db connected."))
   .catch((err) => console.log(err, "connect fail."));
+
+// mongoose
+//   .connect(
+//     "mongodb+srv://admin:admin@gearshopfinal.isqkpz2.mongodb.net/?retryWrites=true&w=majority",
+//     {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     }
+//   )
+//   .then(() => console.log("db connected."))
+//   .catch((err) => console.log(err, "connect fail."));
 
 app.get("/", (req, res) => {
   res.send("upload file");
@@ -64,6 +63,6 @@ app.use("/api/comment", commentRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(process.env.POST || 8000, () => {
+  console.log(`Example app listening on port`);
 });
