@@ -13,7 +13,7 @@ const authController = {
         id: user.id,
         role: user.role,
       },
-      process.env.JWT_ACCESS_KEY, // ! đây là key bảo mật
+      process.env.'123456', // ! đây là key bảo mật
       { expiresIn: "2h" } // ! Thời gian hết hạn token
     );
   },
@@ -24,7 +24,7 @@ const authController = {
         id: user.id,
         role: user.role,
       },
-      process.env.JWT_ACCESS_KEY_REFRESH,
+      process.env.'123456',
       { expiresIn: "1d" }
     );
   },
@@ -120,7 +120,7 @@ const authController = {
       //.
       jwt.verify(
         refresh_token,
-        process.env.JWT_ACCESS_KEY_REFRESH,
+        process.env.'123456',
         (error, user) => {
           if (error) {
             console.log(error);
