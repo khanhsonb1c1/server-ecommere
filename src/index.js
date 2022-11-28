@@ -17,7 +17,7 @@ const companyRoute = require("./routers/company");
 const blogRoute = require("./routers/blog");
 const commentRoute = require("./routers/comment");
 
-dotenv.config({ path: 'dev.env' });
+dotenv.config();
 
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -64,7 +64,7 @@ app.use("/api/comment", commentRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`Example app listening on port`);
+const port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function() {
+console.log("Listening on Port 3000");
 });
