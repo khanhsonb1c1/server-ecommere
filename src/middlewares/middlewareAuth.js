@@ -7,7 +7,7 @@ const middlewareAuth = {
     const token = req.headers.token;
     if (token) {
       const accessToken = token;
-      jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (error, user) => {
+      jwt.verify(accessToken, '123456', (error, user) => {
         if (error) {
           res.status(403).json("Token is not valid");
         }
