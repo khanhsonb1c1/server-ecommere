@@ -17,7 +17,7 @@ const companyRoute = require("./routers/company");
 const blogRoute = require("./routers/blog");
 const commentRoute = require("./routers/comment");
 
-dotenv.config();
+dotenv.config({ path: 'dev.env' });
 
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
