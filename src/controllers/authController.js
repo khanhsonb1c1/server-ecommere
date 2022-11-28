@@ -13,7 +13,7 @@ const authController = {
         id: user.id,
         role: user.role,
       },
-      process.env.JWT_ACCESS_KEY, // ! đây là key bảo mật
+      "123456", // ! đây là key bảo mật
       { expiresIn: "2h" } // ! Thời gian hết hạn token
     );
   },
@@ -24,7 +24,7 @@ const authController = {
         id: user.id,
         role: user.role,
       },
-      process.env.JWT_ACCESS_KEY_REFRESH,
+      "654321",
       { expiresIn: "1d" }
     );
   },
@@ -118,33 +118,29 @@ const authController = {
         return res.status(403).json("refresh token is not valid");
       }
       //.
-      jwt.verify(
-        refresh_token,
-        process.env.JWT_ACCESS_KEY_REFRESH,
-        (error, user) => {
-          if (error) {
-            console.log(error);
-          }
-
-          // lọc cái arr token ra
-          refreshTokens = refreshTokens.filter(
-            (token) => token !== refresh_token
-          );
-
-          // create new access token and refresh token.
-          const newAccessToken = authController.createAccessToken(user);
-          const newRefreshToken = authController.createAccessTokenRefresh(user);
-          refreshTokens.push(refresh_token);
-          res.cookie("refresh_token", newRefreshToken, {
-            httpOnly: true,
-            secure: false, // ! change to TRUE when deploy.
-            path: "/",
-            sameSite: "strict",
-          });
-
-          res.status(200).json({ access_token: newAccessToken });
+      jwt.verify(refresh_token, "654321", (error, user) => {
+        if (error) {
+          console.log(error);
         }
-      );
+
+        // lọc cái arr token ra
+        refreshTokens = refreshTokens.filter(
+          (token) => token !== refresh_token
+        );
+
+        // create new access token and refresh token.
+        const newAccessToken = authController.createAccessToken(user);
+        const newRefreshToken = authController.createAccessTokenRefresh(user);
+        refreshTokens.push(refresh_token);
+        res.cookie("refresh_token", newRefreshToken, {
+          httpOnly: true,
+          secure: false, // ! change to TRUE when deploy.
+          path: "/",
+          sameSite: "strict",
+        });
+
+        res.status(200).json({ access_token: newAccessToken });
+      });
     } catch (error) {
       res.status(500).json(error);
     }
