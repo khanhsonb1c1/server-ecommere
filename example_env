@@ -1,8 +1,0 @@
-MONGOOSE_URL=mongodb+srv://admin:admin@test.vxqaokc.mongodb.net/?retryWrites=true&w=majority
-MONGOOSE_URL=mongodb+srv://admin:admin@gearshopfinal.isqkpz2.mongodb.net/?retryWrites=true&w=majority
-
-
-MONGOOSE_URL=mongodb://localhost:27017/gearshopv2
-JWT_ACCESS_KEY=123456
-
-JWT_ACCESS_KEY_REFRESH=654321
