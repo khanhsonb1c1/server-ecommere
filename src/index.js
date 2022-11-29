@@ -17,7 +17,7 @@ const blogRoute = require("./routers/blog");
 const commentRoute = require("./routers/comment");
 
 // dotenv.config();
-
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -63,7 +63,5 @@ app.use("/api/comment", commentRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen
-const port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function() {
-console.log("Listening on Port 3000");
-});
+let PORT = process.env.PORT || 5005
+app.listen(PORT, () => console.log(`App running on port: ${PORT}`))
