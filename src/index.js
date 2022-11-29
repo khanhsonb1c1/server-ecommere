@@ -15,9 +15,10 @@ const productInCartRoute = require("./routers/productInCart");
 const companyRoute = require("./routers/company");
 const blogRoute = require("./routers/blog");
 const commentRoute = require("./routers/comment");
+// const session = require("express-session");
 
 dotenv.config();
-
+// app.use(session({ resave: true, secret: "123456", saveUninitialized: true }));
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

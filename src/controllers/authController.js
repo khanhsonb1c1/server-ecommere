@@ -29,6 +29,30 @@ const authController = {
     );
   },
 
+  // getAuth: async (req, res) => {
+  //   try {
+  //     const salt = await bcrypt.genSalt(10);
+  //     const hashed = await bcrypt.hash(req.body.password, salt);
+
+  //     // ? create new user
+  //     const newUser = await new User({
+  //       user_name: req.body.user_name,
+  //       email: req.body.email,
+  //       password: hashed,
+  //       full_name: req.body.full_name,
+  //       address_detail: req.body.address_detail,
+  //       phone: req.body.phone,
+  //     });
+
+  //     // ? save to DB
+  //     const user = await newUser.save();
+
+  //     res.status(200).json(user);
+  //   } catch (error) {
+  //     res.status(500).json(error);
+  //   }
+  // },
+
   // ! =============== REGISTER =====================
 
   registerUser: async (req, res) => {
