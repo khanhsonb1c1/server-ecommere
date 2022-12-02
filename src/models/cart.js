@@ -9,7 +9,6 @@ const CartSchema = new mongoose.Schema({
   cart_id: {
     type: String,
     require: false,
-    unique: true,
   },
 
   status: {

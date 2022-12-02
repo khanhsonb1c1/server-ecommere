@@ -5,7 +5,6 @@ const cartController = {
   addCart: async (req, res) => {
     try {
       const newCart = new Cart({
-        cart_id: req.body.cart_id,
         user: req.body.user,
       });
       const saveCart = await newCart.save();
@@ -30,21 +29,49 @@ const cartController = {
     const PAGE_SIZE = 12;
     const page = req.query.page;
 
+    const Status = req.query.status;
+
     try {
       const skip = (page - 1) * PAGE_SIZE;
-      const cart = await Cart.find({})
-        .populate({ path: "product_list", populate: { path: "product" } })
-        .populate("user", "full_name")
-        .skip(skip)
-        .limit(PAGE_SIZE);
 
-      const carts = await Cart.find();
+      if (Status) {
+        const cart = await Cart.find({
+          status: Status,
+        })
+          .populate({ path: "product_list", populate: { path: "product" } })
+          .populate("user", "full_name")
+          .skip(skip)
+          .limit(PAGE_SIZE);
 
-      const total = Math.ceil(carts.length / PAGE_SIZE);
+        const carts = await Cart.find();
 
-      res
-        .status(200)
-        .json({ last_page: total, current_page: page, data: cart });
+        const total = Math.ceil(carts.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: cart });
+      } else {
+        const cart = await Cart.find({
+          $or: [
+            { status: "close" },
+            { status: "order" },
+            { status: "shipment" },
+            { status: "complete" },
+          ],
+        })
+          .populate({ path: "product_list", populate: { path: "product" } })
+          .populate("user", "full_name")
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const carts = await Cart.find();
+
+        const total = Math.ceil(carts.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: cart });
+      }
     } catch (error) {
       res.status(500).json(error);
     }
@@ -79,10 +106,11 @@ const cartController = {
         })
         .populate("user");
 
-      if (cart.length == 0) {
+      if (cart.length < 1) {
         const newCart = new Cart({
           user: user_id,
           status: "open",
+          cart_id: Math.round(+new Date() / 1000),
         });
         const saveCart = await newCart.save();
 
@@ -92,7 +120,7 @@ const cartController = {
           $push: { cart: saveCart._id },
         });
 
-        res.status(200).json(saveCart);
+        res.status(200).json([saveCart]);
       } else res.status(200).json(cart);
     } catch (error) {
       res.status(500).json(error);
@@ -111,8 +139,11 @@ const cartController = {
 
   deleteCart: async (req, res) => {
     try {
-      await Product.updateMany({ category: req.params.id }, { category: null });
-      await Category.findByIdAndDelete(req.params.id);
+      await User.updateMany(
+        { cart: req.params.id },
+        { $pull: { cart: req.params.id } }
+      );
+      await Cart.findByIdAndDelete(req.params.id);
       res.status(200).json("Deleted successfully !");
     } catch (error) {
       res.status(500).json(error);

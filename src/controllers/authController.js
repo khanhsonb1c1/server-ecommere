@@ -14,7 +14,7 @@ const authController = {
         role: user.role,
       },
       process.env.JWT_ACCESS_KEY, // ! đây là key bảo mật
-      { expiresIn: "2h" } // ! Thời gian hết hạn token
+      { expiresIn: "12h" } // ! Thời gian hết hạn token
     );
   },
 

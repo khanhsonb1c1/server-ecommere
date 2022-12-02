@@ -179,7 +179,7 @@ const productController = {
   updateProduct: async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
-      await product.updateOne({ $set: req.body });
+      await product.updateOne({ status: req.body.status });
       res.status(200).json("Updated successfully !");
     } catch (error) {
       res.status(500).json(error);

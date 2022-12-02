@@ -15,6 +15,7 @@ const ProductInCartSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
+    unique: true,
   },
   created_at: {
     type: Number,
