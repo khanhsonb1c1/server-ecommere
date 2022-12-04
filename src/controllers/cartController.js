@@ -26,15 +26,13 @@ const cartController = {
   },
 
   getAllCart: async (req, res) => {
-    const PAGE_SIZE = 12;
-    const page = req.query.page;
-
-    const Status = req.query.status;
-
     try {
-      const skip = (page - 1) * PAGE_SIZE;
+      const PAGE_SIZE = 12;
+      const page = parseInt(req.query.page);
+      const Status = req.query.status;
 
       if (Status) {
+        const skip = (page - 1) * PAGE_SIZE;
         const cart = await Cart.find({
           status: Status,
         })
@@ -43,18 +41,17 @@ const cartController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const carts = await Cart.find();
-
-        const total = Math.ceil(carts.length / PAGE_SIZE);
+        const total = Math.ceil(cart.length / PAGE_SIZE);
 
         res
           .status(200)
           .json({ last_page: total, current_page: page, data: cart });
       } else {
-        const cart = await Cart.find({
+        const skip = (page - 1) * PAGE_SIZE;
+        const cartz = await Cart.find({
           $or: [
             { status: "close" },
-            { status: "order" },
+            { status: "create" },
             { status: "shipment" },
             { status: "complete" },
           ],
@@ -64,13 +61,11 @@ const cartController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const carts = await Cart.find();
-
-        const total = Math.ceil(carts.length / PAGE_SIZE);
+        const totalz = Math.ceil(cartz.length / PAGE_SIZE);
 
         res
           .status(200)
-          .json({ last_page: total, current_page: page, data: cart });
+          .json({ last_page: totalz, current_page: page, data: cartz });
       }
     } catch (error) {
       res.status(500).json(error);
@@ -129,8 +124,14 @@ const cartController = {
 
   updateCart: async (req, res) => {
     try {
+      const status = req.body.status;
+      const total = req.body.total;
+
       const cart = await Cart.findById(req.params.id);
-      await cart.updateOne({ $set: req.body });
+      await cart.updateOne({
+        status: status,
+        total: total,
+      });
       res.status(200).json("Updated successfully !");
     } catch (error) {
       res.status(500).json(error);

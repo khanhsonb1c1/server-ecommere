@@ -33,6 +33,10 @@ const CartSchema = new mongoose.Schema({
       ref: "ProductInCart",
     },
   ],
+  total: {
+    type: Number,
+    default: 0,
+  },
 });
 
 let Cart = mongoose.model("Cart", CartSchema);

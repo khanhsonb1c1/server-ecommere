@@ -83,6 +83,12 @@ const blogController = {
       const blog = await Blog.findById(req.params.id).populate({
         path: "comment",
         populate: { path: "user" },
+        populate: {
+          path: "rep_comment",
+          populate: {
+            path: "user",
+          },
+        },
       });
 
       res.status(200).json(blog);

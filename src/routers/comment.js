@@ -6,10 +6,10 @@ router.post("/", commentController.addComment);
 
 router.get("/", commentController.getAllComment);
 
-// router.get("/:id", blogController.getBlogDetail);
+router.get("/:id", commentController.getDetailComment);
 
-// router.put("/:id", blogController.updateBlog);
+router.put("/:id", commentController.updateComment);
 
-// router.delete("/:id", blogController.deleteBlog);
+router.delete("/:id", commentController.deleteComment);
 
 module.exports = router;

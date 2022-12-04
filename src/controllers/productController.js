@@ -56,7 +56,7 @@ const productController = {
 
   getAllProduct: async (req, res) => {
     const PAGE_SIZE = 12;
-    const page = req.query.page;
+    const page = parseInt(req.query.page);
     const category = req.query.category;
     const company = req.query.company;
     const sort = req.query.sort;
