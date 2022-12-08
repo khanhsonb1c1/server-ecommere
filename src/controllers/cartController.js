@@ -30,8 +30,39 @@ const cartController = {
       const PAGE_SIZE = 12;
       const page = parseInt(req.query.page);
       const Status = req.query.status;
+      const user = req.query.user;
 
-      if (Status) {
+      if (req.query.status && req.query.user) {
+        const skip = (page - 1) * PAGE_SIZE;
+        const cart = await Cart.find({
+          $and: [{ status: Status }, { user: user }],
+        })
+          .populate({ path: "product_list", populate: { path: "product" } })
+          .populate("user", "full_name")
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const total = Math.ceil(cart.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: cart });
+      } else if (req.query.user) {
+        const skip = (page - 1) * PAGE_SIZE;
+        const cart = await Cart.find({
+          user: user,
+        })
+          .populate({ path: "product_list", populate: { path: "product" } })
+          .populate("user", "full_name")
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const total = Math.ceil(cart.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: cart });
+      } else if (req.query.status) {
         const skip = (page - 1) * PAGE_SIZE;
         const cart = await Cart.find({
           status: Status,

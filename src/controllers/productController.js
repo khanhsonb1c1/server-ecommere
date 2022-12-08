@@ -60,12 +60,17 @@ const productController = {
     const category = req.query.category;
     const company = req.query.company;
     const sort = req.query.sort;
-
-    if (req.query.category && req.query.company) {
+    const filter = req.query.filter;
+    // ! TH1:
+    if (req.query.category && req.query.company && req.query.filter) {
       try {
         const skip = (page - 1) * PAGE_SIZE;
         const product_page = await Product.find({
-          $and: [{ category: category }, { company: company }],
+          $and: [
+            { category: category },
+            { company: company },
+            { name: { $regex: filter, $options: "i" } },
+          ],
         })
           .populate("category", "name")
           .populate("company", "name")
@@ -73,9 +78,60 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const products = await Product.find();
+        // const products = await Product.find();
 
-        const total = Math.ceil(products.length / PAGE_SIZE);
+        const total = Math.ceil(product_page.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    }
+
+    // ! TH2
+    else if (req.query.category && req.query.filter) {
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find({
+          $and: [
+            { category: category },
+            { name: { $regex: filter, $options: "i" } },
+          ],
+        })
+          .populate("category", "name")
+          .populate("company", "name")
+          .sort(sort)
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const total = Math.ceil(product_page.length / PAGE_SIZE);
+
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    }
+    // !TH 3
+    else if (req.query.company && req.query.filter) {
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find({
+          $and: [
+            { company: company },
+            { name: { $regex: filter, $options: "i" } },
+          ],
+        })
+          .populate("category", "name")
+          .populate("company", "name")
+          .sort(sort)
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const total = Math.ceil(product_page.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -95,9 +151,7 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const products = await Product.find();
-
-        const total = Math.ceil(products.length / PAGE_SIZE);
+        const total = Math.ceil(product_page.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -117,9 +171,27 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const products = await Product.find();
+        const total = Math.ceil(product_page.length / PAGE_SIZE);
 
-        const total = Math.ceil(products.length / PAGE_SIZE);
+        res
+          .status(200)
+          .json({ last_page: total, current_page: page, data: product_page });
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    } else if (req.query.filter) {
+      try {
+        const skip = (page - 1) * PAGE_SIZE;
+        const product_page = await Product.find({
+          name: { $regex: filter, $options: "i" },
+        })
+          .populate("category", "name")
+          .populate("company", "name")
+          .sort(sort)
+          .skip(skip)
+          .limit(PAGE_SIZE);
+
+        const total = Math.ceil(product_page.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -137,9 +209,7 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const products = await Product.find();
-
-        const total = Math.ceil(products.length / PAGE_SIZE);
+        const total = Math.ceil(product_page.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -179,7 +249,7 @@ const productController = {
   updateProduct: async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
-      await product.updateOne({ status: req.body.status });
+      await product.updateOne({ $set: req.body });
       res.status(200).json("Updated successfully !");
     } catch (error) {
       res.status(500).json(error);

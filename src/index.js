@@ -16,6 +16,8 @@ const companyRoute = require("./routers/company");
 const blogRoute = require("./routers/blog");
 const commentRoute = require("./routers/comment");
 const repCommentRoute = require("./routers/repComment");
+const bannerRoute = require("./routers/banner");
+const voucherRoute = require("./routers/voucher");
 // const session = require("express-session");
 
 dotenv.config();
@@ -63,6 +65,8 @@ app.use("/api/company", companyRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/comment", commentRoute);
 app.use("/api/repcomment", repCommentRoute);
+app.use("/api/banner", bannerRoute);
+app.use("/api/voucher", voucherRoute);
 
 // ? authentication : xac thuc
 // ? authorization : phan quyen

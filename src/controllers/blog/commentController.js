@@ -40,6 +40,7 @@ const commentController = {
         .skip(skip)
         .limit(PAGE_SIZE)
         .sort("created_at")
+
         .populate("rep_comment");
 
       const comments = await Comment.find();
