@@ -3,22 +3,14 @@ const mongoose = require("mongoose");
 const bannerSchema = new mongoose.Schema({
   status: {
     type: Number,
-    default: 2,
+    default: 4,
   },
 
-  //   name: {
-  //     type: String,
-  //     require: true,
-  //   },
-
-  //   description: {
-  //     type: String,
-  //   },
-
-  //   price: {
-  //     type: String,
-  //     require: true,
-  //   },
+  // code: {
+  //   type: String,
+  //   require: true,
+  //   unique: true,
+  // },
 
   created_at: {
     type: Number,

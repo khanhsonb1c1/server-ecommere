@@ -19,8 +19,17 @@ const voucherController = {
 
   getAllVoucher: async (req, res) => {
     try {
-      const company = await Voucher.find();
-      res.status(200).json({ data: company });
+      const filter = req.query.filter;
+
+      if (req.query.filter) {
+        const company = await Voucher.findOne({
+          code: filter,
+        });
+        res.status(200).json({ data: company });
+      } else {
+        const company = await Voucher.find();
+        res.status(200).json({ data: company });
+      }
     } catch (error) {
       res.status(500).json(error);
     }

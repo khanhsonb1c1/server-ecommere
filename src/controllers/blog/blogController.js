@@ -52,7 +52,7 @@ const blogController = {
   },
 
   getAllBlog: async (req, res) => {
-    const PAGE_SIZE = 4;
+    const PAGE_SIZE = 9;
 
     const page = req.query.page;
 

@@ -1,5 +1,6 @@
 const { Cart } = require("../models/cart");
 const { ProductInCart } = require("../models/productInCart");
+const { Product } = require("../models/product");
 
 const productInCartController = {
   addToCart: async (req, res) => {
@@ -10,6 +11,10 @@ const productInCartController = {
         $and: [{ cart: req.body.cart }, { product: req.body.product }],
       });
 
+      const product = await Product.findById(req.body.product);
+
+      const quantity_product = parseInt(product.quantity);
+
       if (product_list.length >= 1) {
         const product_in_cart_default = product_list[0];
         const getId = product_in_cart_default._id;
@@ -18,13 +23,19 @@ const productInCartController = {
 
         const getQuantity = parseInt(req.body.quantity);
 
-        await updateCart.updateOne({
-          quantity: product_in_cart_default.quantity + getQuantity,
-        });
-        res.status(200).json({
-          message: "successfully.",
-          add_product_to_cart: updateCart,
-        });
+        if (product_in_cart_default.quantity + getQuantity > quantity_product) {
+          res.status(200).json({
+            message: "so luong k du.",
+          });
+        } else {
+          await updateCart.updateOne({
+            quantity: product_in_cart_default.quantity + getQuantity,
+          });
+          res.status(200).json({
+            message: "successfully.",
+            add_product_to_cart: updateCart,
+          });
+        }
       } else {
         const newProductInCart = new ProductInCart({
           product: req.body.product,

@@ -21,10 +21,6 @@ const bannerController = {
     try {
       const newBlog = new Banner({
         imageUrl: req.file.path,
-        // name: req.body.name,
-        // price: req.body.price,
-        // description: req.body.description,
-        status: req.body.status,
       });
 
       const saveBlog = await newBlog.save();
@@ -51,7 +47,7 @@ const bannerController = {
   },
 
   getAllBlog: async (req, res) => {
-    const PAGE_SIZE = 4;
+    const PAGE_SIZE = 12;
 
     const page = parseInt(req.query.page);
 
@@ -93,7 +89,9 @@ const bannerController = {
   updateBlog: async (req, res) => {
     try {
       const banner = await Banner.findById(req.params.id);
-      await banner.updateOne({ status: req.body.status });
+      await banner.updateOne({
+        status: req.body.status,
+      });
       res.status(200).json("Updated successfully !");
     } catch (error) {
       res.status(500).json(error);

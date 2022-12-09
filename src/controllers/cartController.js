@@ -42,7 +42,11 @@ const cartController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(cart.length / PAGE_SIZE);
+        const carts = await Cart.find({
+          $and: [{ status: Status }, { user: user }],
+        });
+
+        const total = Math.ceil(carts.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -57,7 +61,11 @@ const cartController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(cart.length / PAGE_SIZE);
+        const carts = await Cart.find({
+          user: user,
+        });
+
+        const total = Math.ceil(carts.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -72,7 +80,11 @@ const cartController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(cart.length / PAGE_SIZE);
+        const carts = await Cart.find({
+          status: Status,
+        });
+
+        const total = Math.ceil(carts.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -92,7 +104,16 @@ const cartController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const totalz = Math.ceil(cartz.length / PAGE_SIZE);
+        const carts = await Cart.find({
+          $or: [
+            { status: "close" },
+            { status: "create" },
+            { status: "shipment" },
+            { status: "complete" },
+          ],
+        });
+
+        const totalz = Math.ceil(carts.length / PAGE_SIZE);
 
         res
           .status(200)

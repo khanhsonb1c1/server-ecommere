@@ -78,9 +78,15 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        // const products = await Product.find();
+        const products = await Product.find({
+          $and: [
+            { category: category },
+            { company: company },
+            { name: { $regex: filter, $options: "i" } },
+          ],
+        });
 
-        const total = Math.ceil(product_page.length / PAGE_SIZE);
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -106,7 +112,14 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(product_page.length / PAGE_SIZE);
+        const products = await Product.find({
+          $and: [
+            { category: category },
+            { name: { $regex: filter, $options: "i" } },
+          ],
+        });
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -131,7 +144,14 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(product_page.length / PAGE_SIZE);
+        const products = await Product.find({
+          $and: [
+            { company: company },
+            { name: { $regex: filter, $options: "i" } },
+          ],
+        });
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -151,7 +171,11 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(product_page.length / PAGE_SIZE);
+        const products = await Product.find({
+          category: category,
+        });
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -171,7 +195,11 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(product_page.length / PAGE_SIZE);
+        const products = await Product.find({
+          company: company,
+        });
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -191,7 +219,11 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(product_page.length / PAGE_SIZE);
+        const products = await Product.find({
+          name: { $regex: filter, $options: "i" },
+        });
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
         res
           .status(200)
@@ -209,7 +241,9 @@ const productController = {
           .skip(skip)
           .limit(PAGE_SIZE);
 
-        const total = Math.ceil(product_page.length / PAGE_SIZE);
+        const products = await Product.find();
+
+        const total = Math.ceil(products.length / PAGE_SIZE);
 
         res
           .status(200)
